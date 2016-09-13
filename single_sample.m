@@ -17,7 +17,6 @@ function[res] = single_sample(X,init_wts,eta)
 				a = a + (eta.*Y);
 				misclassified = 1;
 				counter = 0;
-				disp (Y)
 				break;
 			end
 			k = mod(k+1,no_of_samples);

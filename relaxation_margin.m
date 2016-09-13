@@ -1,25 +1,37 @@
 function[res] =  relaxation_margin(X,init_wts,eta,margin,no_of_samples,dim)
-		k = 1;
-		a = init_wts;
-		Yk = [1];
-		while(size(Yk)~=[0,0])
-			Yk = [];
-			j = 1;
-			while(j~=no_of_samples+1)
-				y = X(j,:);
-				if a*y'<=margin
-					Yk = [Yk;y];
-				end
-				j = j+1;
+	[no_of_samples,dim] = size(X);
+	a = init_wts;
+	prev_a = zeros(1,dim);
+	theta = 0.005;
+	misclassified = 1;
+	k =1;
+	counter = 0;
+
+	while(1)
+		misclassified = 0;
+		while(k<=no_of_samples)
+			counter = counter + 1;
+			Y = X(k,:);
+			if a*Y' <0							%'
+				prev_a = a;
+				term = (margin - (a*Y')/norm(Y))*Y';
+				a = a + (eta.*term');
+				misclassified = 1;
+				counter = 0;
+				disp (Y)
+				break;
 			end
-			prev_a = a;
-			term = 0;
-			for i=1:size(Yk,1)
-				y = Yk(i,:);
-				term = term + ((margin- (a*y')) / norm(y) ) *y;
+			k = mod(k+1,no_of_samples);
+			if k == 0
+				k=14;
 			end
-			a = prev_a + (eta*term);
-			k = k+1;
+			if (counter==14&&misclassified==0)
+				break;
+			end
 		end
-		res = a;
+		if ((pdist([a;prev_a])<theta)||(misclassified==0))
+			break;
+		end
+	end
+	res = a;
 end

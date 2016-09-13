@@ -16,7 +16,7 @@ org_X = [C1;C2];
 
 %% Single Sample
 figure;
-plot (org_X(1:7,1), org_X(1:7,2), 'ro', org_X(7:14,1), org_X(7:14,2), 'bo','MarkerSize',10)
+plot (org_X(1:7,1), org_X(1:7,2), 'ro', org_X(7:14,1), org_X(7:14,2), 'bo','MarkerSize',10);
 hold on
 init_wts = [(1/no_of_samples) * ones(1,dim)];
 eta = 1;
@@ -25,13 +25,12 @@ res = single_sample(X,init_wts,eta);
 plot (class1(:,1), class1(:,2), 'r*', class2(:,1), class2(:,2), 'b*');hold on;
 
 %% plot solution a
-Xpts = [1:9];
+Xpts = [-5:12];
 Ypts =( res(1)* Xpts + res(3) )/ res(2) ;
 plot(Xpts,-Ypts)
-
 title('Single Sample Perceptron : o - original , * - perceptron o/p ')
  
- %% Single Sample w/ margin\
+ %% Single Sample w/ margin
 figure;
 plot (org_X(1:7,1), org_X(1:7,2), 'ro', org_X(7:14,1), org_X(7:14,2), 'bo','MarkerSize',10)
 init_wts = [(1/no_of_samples) * ones(1,dim)];
@@ -39,16 +38,41 @@ eta = 0.0005;
 margin = 0.05;
 res = single_sample_margin(X,init_wts,eta,margin,no_of_samples,dim);
 [class1,class2] = classify(org_X,res,no_of_samples,dim);
-plot (class1(:,1), class1(:,2), 'r*', class2(:,1), class2(:,2), 'b*')
-title('Single Sample W/ MARGING Perceptron : o - original , * - perceptron o/p ')
+plot (class1(:,1), class1(:,2), 'r*', class2(:,1), class2(:,2), 'b*') hold on;
+%% plot solution a
+Xpts = [-5:12];
+Ypts =( res(1)* Xpts + res(3) )/ res(2) ;
+plot(Xpts,-Ypts)
+title('Single Sample W/ MERGING Perceptron : o - original , * - perceptron o/p ')
 
 %% Relaxation with margin
 figure;
 plot (org_X(1:7,1), org_X(1:7,2), 'ro', org_X(7:14,1), org_X(7:14,2), 'bo','MarkerSize',10)
-init_wts = [(1/no_of_samples) * ones(1,dim)];
+init_wts = [ones(1,dim)];
 eta = 0.0005;
 margin = 0.05;
 res = relaxation_margin(X,init_wts,eta,margin,no_of_samples,dim);
 [class1,class2] = classify(org_X,res,no_of_samples,dim);
-plot (class1(:,1), class1(:,2), 'r*', class2(:,1), class2(:,2), 'b*')
+plot (class1(:,1), class1(:,2), 'r*', class2(:,1), class2(:,2), 'b*') hold on;
+%% plot solution a
+Xpts = [-5:12];
+Ypts =( res(1)* Xpts + res(3) )/ res(2) ;
+plot(Xpts,-Ypts)
 title('Relaxation with margin: o - original , * - perceptron o/p ')
+
+%% LMS procedure
+figure;
+plot (org_X(1:7,1), org_X(1:7,2), 'ro', org_X(7:14,1), org_X(7:14,2), 'bo','MarkerSize',10)
+a = [ones(1,dim)];
+b = [ones(1,no_of_samples)];
+theta = 0.001;
+eta = 1;
+margin = 0.05;
+res = lms(X,a,b,theta,eta,no_of_samples,dim);
+[class1,class2] = classify(org_X,res,no_of_samples,dim);
+plot (class1(:,1), class1(:,2), 'r*', class2(:,1), class2(:,2), 'b*'); hold on;
+%% plot solution a
+Xpts = [-5:12];
+Ypts =( res(1)* Xpts + res(3) )/ res(2) ;
+plot(Xpts,-Ypts)
+title('LMS: o - original , * - perceptron o/p ')
