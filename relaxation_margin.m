@@ -14,7 +14,7 @@ function[res] =  relaxation_margin(X,init_wts,eta,margin,no_of_samples,dim)
 			Y = X(k,:);
 			if a*Y' <0							%'
 				prev_a = a;
-				term = (margin - (a*Y')/norm(Y))*Y';
+				term = ((margin - (a*Y'))/norm(Y))*Y';
 				a = a + (eta.*term');
 				misclassified = 1;
 				counter = 0;

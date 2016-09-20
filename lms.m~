@@ -8,7 +8,7 @@ function[a] = lms(X,a,b,theta,eta,no_of_samples,dim)
 		Yk = X(k,:);
 		Bk = b(k);
 		term = (eta*Yk*(a*Yk'-Bk));
-		a = a - term;
+		a = a + term;
 		if term'<theta
 			break
 		end

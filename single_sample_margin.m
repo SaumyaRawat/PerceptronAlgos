@@ -1,8 +1,8 @@
-function[res] = single_sample(X,init_wts,eta)
+function[res] = single_sample_margin(X,init_wts,eta,margin,no_of_samples,dim);
 	[no_of_samples,dim] = size(X);
 	a = init_wts;
 	prev_a = zeros(1,dim);
-	theta = 0.005;
+	theta = 0.5;
 	misclassified = 1;
 	k =1;
 	counter = 0;
@@ -12,7 +12,7 @@ function[res] = single_sample(X,init_wts,eta)
 		while(k<=no_of_samples)
 			counter = counter + 1;
 			Y = X(k,:);
-			if a*Y' <0							%'
+			if a*Y' <margin							%'
 				prev_a = a;
 				a = a + (eta.*Y);
 				misclassified = 1;

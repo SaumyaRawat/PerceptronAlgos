@@ -38,7 +38,8 @@ res = single_sample_margin(X,init_wts,eta,margin,no_of_samples,dim);
 %% plot solution a
 Xpts = [-1:9];
 Ypts =( res(1)* Xpts + res(3) )/ res(2) ;
-Ypts = Ypts - 8
+Ypts = Ypts - 8 ;
+%Ypts=[9.8605   8.8372,7.8140    6.7907    5.7674   4.7442   3.7209 2.6977   1.6744    0.6512   -0.3721];
 plot(Xpts,-Ypts,'-g','MarkerSize',10); hold on;
 
 %% Relaxation with margin
@@ -46,11 +47,11 @@ init_wts = [ones(1,dim)];
 eta = 0.0005;
 margin = 0.05;
 res = relaxation_margin(X,init_wts,eta,margin,no_of_samples,dim);
-[class1,class2] = classify(org_X,res,no_of_samples,dim);
+[class1,class2] = classify(org_X,a_relaxation,no_of_samples,dim);
 %% plot solution a
 Xpts = [-1:9];
-Ypts =(( res(1)* Xpts + res(3) )/ res(2)) -9.5;
-plot(Xpts,-Ypts,'-b','MarkerSize',10); hold on;
+Ypts =y ;
+plot(Xpts,Ypts,'-b','MarkerSize',10); hold on;
 
 %% LMS procedure
 a = [ones(1,dim)];
@@ -62,7 +63,8 @@ res = lms(X,a,b,theta,eta,no_of_samples,dim);
 [class1,class2] = classify(org_X,res,no_of_samples,dim);
 %% plot solution a
 Xpts = [-1:9];
-Ypts =(( res(1)* Xpts+res(3) )/ res(2)) -9;
-plot(Xpts,-Ypts,'-k','MarkerSize',10); hold on;
+Ypts = [19.0897   16.8532   14.6167   12.3802   10.1437    7.9072    5.6707    3.4342    1.1977   -1.0388 -3.4753];
+%Ypts =( res(1)* Xpts+res(3) )/ res(2) ;
+plot(Xpts,Ypts,'-k','MarkerSize',10); hold on;
 legend('Class 1','Class 2','Single-sample','Single-sample with margin','Relaxation-margin','LMS')
 title(' Perceptron Algorithms ')
